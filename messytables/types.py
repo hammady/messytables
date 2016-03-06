@@ -198,7 +198,7 @@ class DateUtilType(CellType):
 TYPES = [StringType, DecimalType, IntegerType, DateType, BoolType]
 
 
-def type_guess(rows, types=TYPES, strict=False):
+def type_guess(rows, types=TYPES, strict=False, all_guesses=False):
     """ The type guesser aggregates the number of successful
     conversions of each column to each type, weights them by a
     fixed type priority and select the most probable type for
@@ -257,8 +257,10 @@ def type_guess(rows, types=TYPES, strict=False):
         # element in case of a tie
         # See: http://stackoverflow.com/a/6783101/214950
         guesses_tuples = [(t, guess[t]) for t in type_instances if t in guess]
-        print sorted(guesses_tuples, key=lambda t_n: t_n[1], reverse=True)
-        _columns.append(max(guesses_tuples, key=lambda t_n: t_n[1])[0])
+        if all_guesses:
+            _columns.append(sorted(guesses_tuples, key=lambda t_n: t_n[1], reverse=True))
+        else:
+            _columns.append(max(guesses_tuples, key=lambda t_n: t_n[1])[0])
     return _columns
 
 
