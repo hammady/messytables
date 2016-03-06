@@ -257,6 +257,7 @@ def type_guess(rows, types=TYPES, strict=False):
         # element in case of a tie
         # See: http://stackoverflow.com/a/6783101/214950
         guesses_tuples = [(t, guess[t]) for t in type_instances if t in guess]
+        print sorted(guesses_tuples, key=lambda t_n: t_n[1], reverse=True)
         _columns.append(max(guesses_tuples, key=lambda t_n: t_n[1])[0])
     return _columns
 
